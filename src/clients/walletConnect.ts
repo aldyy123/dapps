@@ -1,4 +1,4 @@
-const projectId = '<TOKEN_WALLET_CONNECT>';
+const projectId = '0c2ece22b6f34c689365bd4e8d29dfd4';
 
 const providerMetadata = {
   name: 'WalletConnect',
