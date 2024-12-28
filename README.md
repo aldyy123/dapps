@@ -1,79 +1,183 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# DappReact
 
-# Getting Started
+Selamat datang di proyek **DappReact**, sebuah aplikasi React Native yang dikembangkan untuk memfasilitasi interaksi dengan dompet kripto secara efisien. Dokumentasi ini akan membantu Anda memahami cara menggunakan dan mengembangkan proyek ini.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Persyaratan Sistem
 
-## Step 1: Start the Metro Server
+Sebelum memulai pengembangan, pastikan sistem Anda telah memenuhi persyaratan berikut:
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+- [Node.js](https://nodejs.org/) (versi 18 atau lebih tinggi)
+- [Yarn](https://yarnpkg.com/) atau [npm](https://www.npmjs.com/) sebagai manajer paket
+- [React Native CLI](https://reactnative.dev/docs/environment-setup)
 
-To start Metro, run the following command from the _root_ of your React Native project:
+### Setup Environment Development
 
-```bash
-# using npm
-npm start
+#### Windows
+1. Install [Chocolatey](https://chocolatey.org/) sebagai package manager
+2. Install JDK menggunakan Chocolatey:
+   ```bash
+   choco install -y microsoft-openjdk18
+   ```
+3. Install Android Studio
+   - Download dari [Android Studio](https://developer.android.com/studio)
+   - Saat instalasi, pastikan memilih komponen:
+     - Android SDK
+     - Android SDK Platform
+     - Android Virtual Device
+4. Setup Environment Variables:
+   - Tambahkan ANDROID_HOME: `%LOCALAPPDATA%\Android\Sdk`
+   - Tambahkan path: 
+     ```
+     %LOCALAPPDATA%\Android\Sdk\platform-tools
+     %LOCALAPPDATA%\Android\Sdk\tools
+     ```
 
-# OR using Yarn
-yarn start
-```
+#### macOS
+1. Install Homebrew jika belum ada:
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+2. Install JDK:
+   ```bash
+   brew tap homebrew/cask-versions
+   brew install --cask zulu18
+   ```
+3. Install Android Studio:
+   ```bash
+   brew install --cask android-studio
+   ```
+4. Setup Environment Variables (tambahkan ke ~/.zshrc atau ~/.bash_profile):
+   ```bash
+   export ANDROID_HOME=$HOME/Library/Android/sdk
+   export PATH=$PATH:$ANDROID_HOME/platform-tools
+   export PATH=$PATH:$ANDROID_HOME/tools
+   ```
+5. Install Xcode dari App Store
 
-## Step 2: Start your Application
+#### Linux (Ubuntu/Debian)
+1. Install JDK:
+   ```bash
+   sudo apt update
+   sudo apt install openjdk-18-jdk
+   ```
+2. Install Android Studio:
+   ```bash
+   sudo snap install android-studio --classic
+   ```
+3. Setup Environment Variables (tambahkan ke ~/.bashrc):
+   ```bash
+   export ANDROID_HOME=$HOME/Android/Sdk
+   export PATH=$PATH:$ANDROID_HOME/platform-tools
+   export PATH=$PATH:$ANDROID_HOME/tools
+   ```
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+## Setup WalletConnect
 
-### For Android
+1. Buat akun di [WalletConnect Cloud](https://cloud.walletconnect.com/)
+2. Buat project baru dengan mengklik "Create New Project"
+3. Pilih "App" sebagai jenis project
+4. Isi detail project:
+   - Name: Nama aplikasi Anda
+   - Description: Deskripsi aplikasi
+   - URL: URL website/aplikasi
+   - Icon: Upload icon aplikasi
+5. Setelah project dibuat, salin Project ID yang diberikan
+6. Update file `src/clients/walletConnect.ts`:
+   ```typescript
+   const projectId = 'YOUR_PROJECT_ID'; // Ganti dengan Project ID Anda
 
-```bash
-# using npm
-npm run android
+   const providerMetadata = {
+     name: 'YOUR_APP_NAME', // Ganti dengan nama aplikasi Anda
+     description: 'YOUR_APP_DESCRIPTION', // Ganti dengan deskripsi aplikasi
+     url: 'YOUR_APP_URL', // Ganti dengan URL aplikasi
+     icons: ['YOUR_APP_ICON_URL'], // Ganti dengan URL icon aplikasi
+     redirect: {
+       native: 'YOUR_APP_SCHEME://', // Ganti dengan scheme aplikasi (ex: myapp://)
+       universal: 'YOUR_APP_UNIVERSAL_LINK.com', // Ganti dengan universal link
+     },
+   };
+   ```
 
-# OR using Yarn
-yarn android
-```
+## Panduan Instalasi
 
-### For iOS
+1. Unduh repositori ini ke komputer Anda dengan perintah:
 
-```bash
-# using npm
-npm run ios
+   ```bash
+   git clone https://github.com/username/dappreact.git
+   ```
 
-# OR using Yarn
-yarn ios
-```
+2. Akses direktori proyek dengan perintah:
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+   ```bash
+   cd dappreact
+   ```
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+3. Install dependensi:
+   ```bash
+   yarn install
+   # atau
+   npm install
+   ```
 
-## Step 3: Modifying your App
+## Panduan Menjalankan Aplikasi
 
-Now that you have successfully run the app, let's modify it.
+### Pengembangan Android
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+1. Pastikan emulator Android atau perangkat Android telah terhubung dengan komputer Anda.
+2. Jalankan aplikasi dengan perintah:
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+   ```bash
+   npm run android
+   ```
+   atau menggunakan Yarn:
 
-## Congratulations! :tada:
+   ```bash
+   yarn android
+   ```
 
-You've successfully run and modified your React Native App. :partying_face:
+### Pengembangan iOS
 
-### Now what?
+1. Pastikan Xcode dan simulator iOS telah terpasang dan berjalan dengan baik.
+2. Install dependensi iOS:
+   ```bash
+   cd ios && pod install && cd ..
+   ```
+3. Jalankan aplikasi dengan perintah:
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+   ```bash
+   npm run ios
+   ```
+   atau menggunakan Yarn:
 
-# Troubleshooting
+   ```bash
+   yarn ios
+   ```
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## Pengembangan Aplikasi
 
-# Learn More
+Untuk melakukan pengembangan aplikasi, Anda dapat memodifikasi berkas `App.tsx` menggunakan editor kode pilihan Anda. Untuk melihat hasil perubahan secara langsung:
 
-To learn more about React Native, take a look at the following resources:
+- Pada **Android**: Tekan tombol <kbd>R</kbd> dua kali atau pilih opsi **"Reload"** pada **Developer Menu**
+- Pada **iOS**: Tekan kombinasi tombol <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> pada simulator iOS
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+## Penanganan Masalah
+
+Jika mengalami kendala saat menjalankan aplikasi, lakukan pemeriksaan berikut:
+
+- Pastikan seluruh dependensi telah terinstal dengan benar
+- Periksa status emulator atau simulator
+- Kunjungi [dokumentasi Penanganan Masalah React Native](https://reactnative.dev/docs/troubleshooting) untuk solusi lebih lanjut
+
+## Referensi
+
+- [Dokumentasi Resmi React Native](https://reactnative.dev/docs/getting-started)
+- [Dokumentasi WalletConnect](https://docs.walletconnect.com/)
+- [Panduan Integrasi dengan Aplikasi yang Telah Ada](https://reactnative.dev/docs/integration-with-existing-apps)
+
+## Panduan Kontribusi
+
+Anda dapat berkontribusi pada pengembangan proyek ini dengan mengajukan pull request atau membuka diskusi melalui fitur issues.
+
+## Lisensi
+
+Proyek ini dilisensikan di bawah ketentuan [MIT License](LICENSE).
