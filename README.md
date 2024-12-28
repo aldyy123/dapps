@@ -13,45 +13,89 @@ Sebelum memulai pengembangan, pastikan sistem Anda telah memenuhi persyaratan be
 ### Setup Environment Development
 
 #### Windows
-1. Install [Chocolatey](https://chocolatey.org/) sebagai package manager
-2. Install JDK menggunakan Chocolatey:
+1. Install JDK secara manual:
+   - Download JDK dari [situs resmi](https://jdk.java.net/).
+   - Pilih versi yang sesuai (misalnya, JDK 18) dan unduh installer.
+   - Jalankan installer yang sudah didownload dan ikuti instruksi untuk menyelesaikan instalasi.
+
+2. Setelah instalasi selesai, pastikan JDK terpasang dengan benar dengan menjalankan perintah berikut di Command Prompt:
    ```bash
-   choco install -y microsoft-openjdk18
+   java -version
    ```
+
+3. Set JAVA_HOME Environment Variable:
+   - Buka "Control Panel" dan pilih "System and Security".
+   - Klik "System", lalu pilih "Advanced system settings".
+   - Di jendela "System Properties", klik tombol "Environment Variables".
+   - Di bagian "System variables", klik "New" untuk menambahkan variable baru.
+   - Masukkan `JAVA_HOME` sebagai nama variable dan path ke folder JDK sebagai value (misalnya, `C:\Program Files\Java\jdk-18`).
+   - Klik "OK" untuk menyimpan perubahan.
+   - Temukan variable "Path" di bagian "System variables", pilih dan klik "Edit".
+   - Tambahkan `%JAVA_HOME%\bin` ke dalam daftar path.
+   - Klik "OK" untuk menyimpan semua perubahan.
+
+4. Verifikasi pengaturan dengan membuka Command Prompt baru dan menjalankan:
+   ```bash
+   echo %JAVA_HOME%
+   ```
+   Ini harus menampilkan path ke folder JDK Anda.
+
 3. Install Android Studio
-   - Download dari [Android Studio](https://developer.android.com/studio)
-   - Saat instalasi, pastikan memilih komponen:
+   - Download Android Studio dari [situs resmi](https://developer.android.com/studio)
+   - Jalankan installer yang sudah didownload
+   - Klik "Next" pada welcome screen
+   - Pilih "Standard" installation dan klik "Next"
+   - Pilih tema UI yang diinginkan (Light/Darcula) dan klik "Next"
+   - Klik "Finish" untuk memulai download komponen SDK
+   - Tunggu proses download dan instalasi selesai
+   - Pastikan komponen berikut terinstall:
      - Android SDK
      - Android SDK Platform
      - Android Virtual Device
-4. Setup Environment Variables:
-   - Tambahkan ANDROID_HOME: `%LOCALAPPDATA%\Android\Sdk`
-   - Tambahkan path: 
+   
+4. Setup Environment Variables melalui GUI:
+   - Buka "Edit System Environment Variables" dari Start Menu
+   - Klik "Environment Variables"
+   - Di bagian "System Variables", klik "New"
+   - Tambahkan variable ANDROID_HOME dengan value: `%LOCALAPPDATA%\Android\Sdk`
+   - Di bagian "System Variables", cari variable "Path"
+   - Klik "Edit" dan tambahkan:
      ```
      %LOCALAPPDATA%\Android\Sdk\platform-tools
      %LOCALAPPDATA%\Android\Sdk\tools
      ```
 
 #### macOS
-1. Install Homebrew jika belum ada:
-   ```bash
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   ```
+1. Install Homebrew:
+   - Buka Terminal
+   - Jalankan perintah:
+     ```bash
+     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+     ```
+
 2. Install JDK:
    ```bash
    brew tap homebrew/cask-versions
    brew install --cask zulu18
    ```
+
 3. Install Android Studio:
-   ```bash
-   brew install --cask android-studio
-   ```
-4. Setup Environment Variables (tambahkan ke ~/.zshrc atau ~/.bash_profile):
-   ```bash
-   export ANDROID_HOME=$HOME/Library/Android/sdk
-   export PATH=$PATH:$ANDROID_HOME/platform-tools
-   export PATH=$PATH:$ANDROID_HOME/tools
-   ```
+   - Download dari [situs resmi](https://developer.android.com/studio)
+   - Buka file .dmg yang didownload
+   - Drag Android Studio ke folder Applications
+   - Buka Android Studio dan ikuti setup wizard
+   - Pilih "Standard" installation
+   - Tunggu proses download komponen SDK selesai
+
+4. Setup Environment Variables:
+   - Buka Terminal
+   - Edit file ~/.zshrc atau ~/.bash_profile menggunakan editor:
+     ```bash
+     export ANDROID_HOME=$HOME/Library/Android/sdk
+     export PATH=$PATH:$ANDROID_HOME/platform-tools
+     export PATH=$PATH:$ANDROID_HOME/tools
+     ```
+   
 5. Install Xcode dari App Store
 
 #### Linux (Ubuntu/Debian)
@@ -60,16 +104,24 @@ Sebelum memulai pengembangan, pastikan sistem Anda telah memenuhi persyaratan be
    sudo apt update
    sudo apt install openjdk-18-jdk
    ```
+
 2. Install Android Studio:
-   ```bash
-   sudo snap install android-studio --classic
-   ```
-3. Setup Environment Variables (tambahkan ke ~/.bashrc):
-   ```bash
-   export ANDROID_HOME=$HOME/Android/Sdk
-   export PATH=$PATH:$ANDROID_HOME/platform-tools
-   export PATH=$PATH:$ANDROID_HOME/tools
-   ```
+   - Download dari [situs resmi](https://developer.android.com/studio)
+   - Extract file yang didownload
+   - Pindah ke direktori android-studio/bin
+   - Jalankan studio.sh
+   - Ikuti setup wizard untuk instalasi
+   - Pilih "Standard" installation
+   - Tunggu proses download komponen SDK selesai
+
+3. Setup Environment Variables:
+   - Buka Terminal
+   - Edit file ~/.bashrc:
+     ```bash
+     export ANDROID_HOME=$HOME/Android/Sdk
+     export PATH=$PATH:$ANDROID_HOME/platform-tools
+     export PATH=$PATH:$ANDROID_HOME/tools
+     ```
 
 ## Setup WalletConnect
 
