@@ -26,29 +26,7 @@ export default function CryptoList({ navigation }: { navigation: any }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchCryptoData = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            const response = await fetch(
-                'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
-            );
-            const data = await response.json();
-            setCryptoData(data);
-        } catch (err) {
-            setError('Failed to fetch crypto data');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchCryptoData();
-        // Set up interval for real-time updates
-        const interval = setInterval(fetchCryptoData, 30000); // Update every 30 seconds
-        return () => clearInterval(interval);
-    }, []);
+    
 
     const renderItem = ({ item }: { item: CryptoItem }) => (
         <TouchableOpacity onPress={() => navigation.navigate('CryptoDetailScreen', { id: item.id })} style={styles.cryptoItem}>
@@ -77,17 +55,6 @@ export default function CryptoList({ navigation }: { navigation: any }) {
             </View>
         </TouchableOpacity>
     );
-
-    if (error) {
-        return (
-            <View style={styles.centerContainer}>
-                <Text style={styles.errorText}>{error}</Text>
-                <TouchableOpacity onPress={fetchCryptoData} style={styles.retryButton}>
-                    <Text style={styles.retryText}>Retry</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
 
     return (
         <FlatList

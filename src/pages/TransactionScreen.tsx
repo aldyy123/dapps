@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -29,7 +29,7 @@ const TransactionScreen: React.FC = () => {
   const [amount, setAmount] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const validateInputs = () => {
+  const validateInputs = useCallback(() => {
     if (!recipientAddress || !amount) {
       Alert.alert('Error', 'Please fill in all fields');
       return false;
@@ -47,35 +47,25 @@ const TransactionScreen: React.FC = () => {
     }
 
     return true;
-  };
+  }, [recipientAddress, amount, balance]);
 
-  const handleSendTransaction = async () => {
+  const handleSendTransaction = useCallback(async () => {
     if (!validateInputs() || !provider || !address) return;
 
     try {
       setLoading(true);
 
-      // Get the current gas price
       const gasPrice = await publicClient.getGasPrice();
-
-      // Prepare transaction
       const transaction = {
         from: address,
         to: recipientAddress as Address,
         value: parseEther(amount),
-        gasPrice
+        gasPrice,
       };
 
-      // Get gas estimate
       const gasEstimate = await publicClient.estimateGas(transaction);
+      const finalTransaction = { ...transaction, gas: gasEstimate };
 
-      // Add gas limit to transaction
-      const finalTransaction = {
-        ...transaction,
-        gas: gasEstimate,
-      };
-
-      // Send transaction
       const hash = await provider.request({
         method: 'eth_sendTransaction',
         params: [finalTransaction],
@@ -87,11 +77,7 @@ const TransactionScreen: React.FC = () => {
         [
           {
             text: 'View on Explorer',
-            onPress: () => {
-              // Open etherscan or relevant block explorer
-              // You can use Linking.openURL() here
-              console.log(`https://etherscan.io/tx/${hash}`);
-            },
+            onPress: () => console.log(`https://etherscan.io/tx/${hash}`),
           },
           {
             text: 'OK',
@@ -99,14 +85,13 @@ const TransactionScreen: React.FC = () => {
           },
         ]
       );
-
     } catch (error) {
       console.error('Transaction error:', error);
       Alert.alert('Error', 'Failed to send transaction. Please try again.');
     } finally {
       setLoading(false);
     }
-  };
+  }, [validateInputs, provider, address, recipientAddress, amount, navigation]);
 
   return (
     <View style={styles.container}>
